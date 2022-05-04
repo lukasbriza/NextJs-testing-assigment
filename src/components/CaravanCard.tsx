@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useContext } from "react"
-import Image from 'next/image'
+import Image, { ImageLoader } from 'next/image'
 
 import { Seat } from "./SVG/Seat"
 import { Bed } from "./SVG/Bed"
@@ -27,6 +27,9 @@ const CaravanCard = (itemData: CardProps) => {
 
     const imgURLs = itemData.pictures
 
+    const myLoader: ImageLoader = ({ src }) => {
+        return src
+    }
     return (
         <React.Fragment>
             <Card
@@ -34,7 +37,14 @@ const CaravanCard = (itemData: CardProps) => {
                 onClick={() => { context?.fn.setCarouselSetup(imgURLs); context?.fn.setShowCarousel(true) }}
             >
                 <PictureWrapper>
-                    <img src={imgURLs[0]} alt={itemData.name} />
+                    <Image
+                        loader={myLoader}
+                        width={390}
+                        height={190}
+                        src={imgURLs[0]}
+                        alt={itemData.name}
+                        unoptimized={true}
+                    />
                 </PictureWrapper>
                 <ContentWrapper>
                     <CaravanTypeHeader>{typeHeader}</CaravanTypeHeader>

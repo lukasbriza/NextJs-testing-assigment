@@ -14,8 +14,15 @@ const Section = styled.section`
     width: 100vw;
     height:60px;
     max-width:${props => props.theme.maxWidth};
-    background-color: ${props => props.theme.colors.white};
-    z-index:1;
+
+    @media (max-width: 700px){
+
+        div{
+            margin: 0;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+    }
 `
 export { Menu }
 

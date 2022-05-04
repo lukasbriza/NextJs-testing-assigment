@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import Image, { ImageLoader } from 'next/image'
 import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -10,20 +11,28 @@ import { CaravanContext } from "../helpers/caravanContext"
 import styled from "styled-components"
 
 const Carousel = () => {
+    const [scrollY, setScrollY] = useState<number>(0)
     const [display, setDisplay] = useState<"grid" | "none">("none")
     const [setup, setSetup] = useState<string[]>([])
     const context = useContext(CaravanContext)
 
+    const myLoader: ImageLoader = ({ src }) => {
+        return src
+    }
+    useEffect(() => {
+        document.addEventListener("scroll", () => { setScrollY(window.pageYOffset) })
+    }, [])
     useEffect(() => {
         if (context?.showCarousel === true) setDisplay("grid")
         if (context?.showCarousel === false) setDisplay("none")
+
     }, [context?.showCarousel])
 
     useEffect(() => {
         if (context?.carouselSetup !== undefined) setSetup(context.carouselSetup)
     }, [context?.carouselSetup])
     return (
-        <Wrapper style={{ display: display }}>
+        <Wrapper style={{ display: display, top: scrollY + "px" }}>
             <div
                 className="cross"
                 onClick={() => context?.fn.setShowCarousel(false)}
@@ -42,22 +51,31 @@ const Carousel = () => {
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => console.log(swiper)}
             >
-                {setup.map((url: string, index: number) => {
-                    return (
-                        <SwiperSlide key={index}>
-                            <img src={url} alt="test" />
-                        </SwiperSlide>
-                    )
-                })}
+                {
+                    setup.length !== 0 ? setup.map((url: string, index: number) => {
+                        if (url.length > 0) {
+                            return (
+                                <SwiperSlide key={index}>
+                                    <Image
+                                        loader={myLoader}
+                                        src={url}
+                                        alt={"carousel image"}
+                                        layout="fill"
+                                        unoptimized={true}
+                                    />
+                                </SwiperSlide>
+                            )
+                        }
+                    }) : null
+                }
             </Swiper>
         </Wrapper>
     )
 }
 
 const Wrapper = styled.div`
-    top:0px;
+    position: absolute;
     left:0px;
-    position: fixed;
     width:100vw;
     height:100vh;
     background-color: rgba(53, 53, 53, 0.64);
@@ -72,6 +90,16 @@ const Wrapper = styled.div`
     ". carousel ."
     ". . ."
     ;
+
+    @media (max-width: 800px){
+        grid-template-columns: 1fr;
+        grid-template-rows: 100px 1fr 100px;
+        grid-template-areas: 
+            "."
+            "carousel"
+            "."
+    ;
+    }
 
     .cross{
         position:absolute;
@@ -110,6 +138,17 @@ const Wrapper = styled.div`
                 height:100%;
                 width:100%;
                 object-fit:cover;
+            }
+        }
+        .swiper-button-next{
+            color: ${props => props.theme.colors.green} !important;
+        }
+        .swiper-button-prev{
+            color: ${props => props.theme.colors.green} !important;
+        }
+        .swiper-pagination {
+            .swiper-pagination-bullet-active{
+                background: ${props => props.theme.colors.green} !important;
             }
         }
     }

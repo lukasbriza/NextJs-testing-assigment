@@ -39,7 +39,13 @@ const Home = () => {
 };
 
 const PageWrapper = styled.div`
+  position: relative;
   background: ${(props) => props.theme.colors.white};
+  max-width: ${(props) => props.theme.maxWidth};
+  border: 1px solid ${(props) => props.theme.colors.beige};
+
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export default Home;

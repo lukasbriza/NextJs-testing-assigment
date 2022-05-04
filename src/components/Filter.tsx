@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext, useRef } from "react"
-import { gsap } from "gsap"
 import Slider from '@mui/material/Slider';
 
 
@@ -185,6 +184,10 @@ const Section = styled.section`
     max-width:${props => props.theme.maxWidth};
     display:flex;
     flex-direction: row;
+
+    @media (max-width: 1250px){
+        flex-wrap: wrap;
+    }
 `;
 const FilterHeader = styled.div`
     grid-area: header;
@@ -204,6 +207,14 @@ const FilterHeader = styled.div`
     flex-direction: row;
 
     cursor:default;
+
+    @media (max-width: 1250px){
+        justify-content: center;
+    }
+
+    @media (max-width: 700px){
+    
+    }
 `;
 const FilterPart = styled.div`
     padding: 10px 0px;
@@ -217,6 +228,10 @@ const FilterPart = styled.div`
     grid-template-rows: 30px 95px;
     grid-template-areas: "header" "main";
 
+    @media (max-width: 1250px){
+        justify-items: center;
+    }
+
     &.centerEl {
         border-left: none;
         border-right: none;
@@ -226,6 +241,8 @@ const FilterPart = styled.div`
         grid-template-columns: 1fr min-content;
         grid-template-areas: ". header" ". main";
 
+        border-left:none;
+
         ${FilterHeader}{
             padding-left: 0px;
         }
@@ -234,6 +251,44 @@ const FilterPart = styled.div`
         grid-template-rows: 30px 95px;
         grid-template-columns: min-content 1fr;
         grid-template-areas: "header ." "main .";
+
+        border-right:none;
+    }
+    @media (max-width: 1250px){
+        &:nth-child(1){
+            order:2;
+            width:50%;
+            grid-template-columns: 1fr;
+            grid-template-areas: "header" "main";
+            
+        }
+        &:nth-child(2){
+            order:1;
+            width:100%;
+            
+        }
+        &:nth-child(3){
+            order:3;
+            width:50%;
+            grid-template-columns: 1fr;
+            grid-template-areas: "header" "main";
+            
+        }
+    }
+    @media (max-width: 700px){
+        width:100%;
+        &:nth-child(1){
+            order: 1;
+        }
+        &:nth-child(2){      
+            order: 2;
+            grid-template-rows: 30px 1fr;
+        }
+        &:nth-child(3){
+            order: 3;
+            grid-template-rows: 30px 1fr;
+            padding-bottom: 15px;
+        }       
     }
 `;
 
@@ -297,6 +352,16 @@ const FilterButtonsWrapper = styled.section`
     grid-area: main;
     display: flex;
     justify-content: space-between;
+    
+    @media (max-width: 700px){
+        display:grid;
+        grid-auto-columns: max-content;
+        grid-auto-flow: dense;
+        grid-auto-rows: minmax(88px, auto);
+        grid-gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
+        margin-bottom: 10px;
+    }
 `;
 const FilterButton = styled.div`
     border-radius: 8px;

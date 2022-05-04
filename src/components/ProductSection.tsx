@@ -17,7 +17,6 @@ interface productSectionProps {
 const ProductSection = (props: productSectionProps) => {
     const context = useContext(CaravanContext)
 
-    const [loading, setLoading] = useState<boolean>(true)
     const [filteredData, setFilteredData] = useState<item[]>([])
     const [lastShownIndex, setLastShownIndex] = useState<number>(9)
 
@@ -87,6 +86,22 @@ const ProductsWrapper = styled.section`
     grid-auto-rows: minmax(100px, auto);
     grid-gap: 25px;
     grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 1250px){
+        grid-template-columns: repeat(2, 1fr);
+        grid-row-gap: 25px;
+        grid-column-gap: 25px;
+        margin: 0 15%;
+    }
+
+    @media (max-width: 1250px){
+        margin: 0 5%;
+    }
+
+    @media (max-width: 800px){
+        margin: 0 0px;
+        grid-template-columns: repeat(1, 1fr);
+    }
 
     padding:32px 0px;
 
